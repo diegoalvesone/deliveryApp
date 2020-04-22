@@ -5,7 +5,7 @@ import api from '../../services/api';
 
 import './styles.css';
 import logoImg from '../../assets/logo.png'
-import deliveryImg from '../../assets/delivery.png'
+import deliveryImg from '../../assets/delivery1.svg'
 
 export default function Logon() {
     const [login, setLogin] = useState('');
@@ -55,7 +55,7 @@ export default function Logon() {
 
                 </form>
             </section>
-            <img src={deliveryImg} alt="Delivery" width="600" height="300" />
+            <img src={deliveryImg} alt="Delivery" width="800" height="400" />
         </div>
     );
 }

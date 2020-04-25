@@ -10,9 +10,10 @@ module.exports = {
 
         const entrega = await connection('entrega')
         .join('loja', 'loja.idLoja', '=', 'entrega.loja_id')
+        .join('entregador', 'entregador.idEntregador', '=', 'entrega.entregador_id')
         .limit(5)
         .offset((page - 1) * 5)
-        .select(['entrega.*']);
+        .select(['entrega.*', 'entregador.nome']);
 
         res.header('X-Total-Count', count['count(*)']);
 

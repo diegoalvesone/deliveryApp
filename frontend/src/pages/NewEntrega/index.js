@@ -98,7 +98,6 @@ export default function NewEntrega() {
                         </option>)
                         }
                     </select>
-                        {entregador_id}
                     <button className="button">Cadastrar</button>
                 </form>
             </div>

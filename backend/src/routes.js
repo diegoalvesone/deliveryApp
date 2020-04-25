@@ -30,7 +30,6 @@ routes.get('/entrega' ,celebrate( {
         page: Joi.number(),
     })
 }) ,EntregaController.index);
-
 routes.post('/entrega' ,EntregaController.create);
 routes.delete('/entrega/:idEntrega',celebrate({
     [Segments.PARAMS]: Joi.object().keys({
@@ -39,6 +38,7 @@ routes.delete('/entrega/:idEntrega',celebrate({
 }) ,EntregaController.delete);
 
 routes.post('/sessions' ,SessionLojaController.create);
+
 routes.get('/profile' , celebrate({
     [Segments.HEADERS]: Joi.object({
         authorization: Joi.string().required(),

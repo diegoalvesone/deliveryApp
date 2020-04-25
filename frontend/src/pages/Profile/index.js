@@ -11,7 +11,10 @@ import logoImg from '../../assets/logo.png';
 
 export default function Profile() {
     const [entregas, setEntregas] = useState([]);
+    const [numeroEntregas, setNumeroEntregas] = useState();
     const [nomeEntregador, setNomeEntregador] = useState('');
+    const [valorPagar, setValorPagar] = useState();
+    const frete = 2;
 
     const history = useHistory();
     
@@ -25,15 +28,11 @@ export default function Profile() {
             }
         }).then(response => {
             setEntregas(response.data);
+            setNumeroEntregas(response.data.length);
+
         })
     }, [loja_id]);
     
-    useEffect(() => {
-        api.get('entregadores')
-        .then(res => {
-            setNomeEntregador(res.data)
-        })
-    })
 
     async function handleDeleteEntregas(idEntrega) {
         try {
@@ -43,10 +42,25 @@ export default function Profile() {
                 }
             });
             setEntregas(entregas.filter(entrega => entrega.idEntrega !== idEntrega ));
+            setNumeroEntregas(numeroEntregas - 1);
         } catch(err) {
             alert('Erro ao deletar entrega, tente novamente.')
         }
-
+    }
+    async function handleBuscaEntregadores(e) {
+        e.preventDefault();
+        try {
+            await api.get('entrega', {
+                headers: {
+                    Authorization: loja_id,
+                }
+            });
+            setEntregas(entregas.filter(entrega => entrega.nome === nomeEntregador));
+            setNumeroEntregas(entregas.filter(entrega => entrega.nome === nomeEntregador).length)
+            setValorPagar(entregas.filter(entrega => entrega.nome === nomeEntregador).length * frete);
+        } catch(err) {
+            alert('Erro ao buscar entregador')
+        }
     }
 
     function handleLogout() {
@@ -65,6 +79,15 @@ export default function Profile() {
             </header>
 
             <h1>Entregas cadastradas:</h1>
+            <h2>Total: {numeroEntregas}</h2>
+            <form onSubmit={handleBuscaEntregadores}>
+            <input 
+            placeholder="Digite o nome do Entregador"
+            value={nomeEntregador}
+            onChange={e => setNomeEntregador(e.target.value)}
+            />
+            <button className="button">Buscar</button>
+            </form>            
             <ul>
                 {entregas.map(entrega =>(
                     <li key={entrega.idEntrega}>
@@ -79,7 +102,7 @@ export default function Profile() {
                         <strong>Data:</strong>
                         <p>{entrega.data}</p>
                         <strong>Entregador:</strong>
-                        <p>{entrega.entregador_id}</p>
+                        <p>{entrega.nome}</p>
 
                         <button onClick={() => handleDeleteEntregas(entrega.idEntrega)}>
                             <FiTrash2 size={20} color="#0000FF" />
@@ -87,6 +110,7 @@ export default function Profile() {
                     </li>
                 ))}
             </ul>
+                <h2>Valor a pagar: {valorPagar}</h2>
         </div>
     );
 }

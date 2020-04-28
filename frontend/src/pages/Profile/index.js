@@ -14,7 +14,7 @@ export default function Profile() {
     const [numeroEntregas, setNumeroEntregas] = useState();
     const [nomeEntregador, setNomeEntregador] = useState('');
     const [valorPagar, setValorPagar] = useState();
-    const frete = 2;
+    const frete = 1;
 
     const history = useHistory();
     
@@ -29,6 +29,7 @@ export default function Profile() {
         }).then(response => {
             setEntregas(response.data);
             setNumeroEntregas(response.data.length);
+            setValorPagar(response.data.length * frete);
 
         })
     }, [loja_id]);
@@ -58,6 +59,7 @@ export default function Profile() {
             setEntregas(entregas.filter(entrega => entrega.nome === nomeEntregador));
             setNumeroEntregas(entregas.filter(entrega => entrega.nome === nomeEntregador).length)
             setValorPagar(entregas.filter(entrega => entrega.nome === nomeEntregador).length * frete);
+            history.push('/profile')
         } catch(err) {
             alert('Erro ao buscar entregador')
         }
@@ -100,7 +102,7 @@ export default function Profile() {
                         <strong>Frete:</strong>
                         <p>{Intl.NumberFormat('pt-BR', {style: 'currency', currency: 'BRL'}).format(entrega.frete)}</p>
                         <strong>Data:</strong>
-                        <p>{entrega.data}</p>
+                        <p>{(new Date(entrega.data)).toLocaleString()}</p>
                         <strong>Entregador:</strong>
                         <p>{entrega.nome}</p>
 

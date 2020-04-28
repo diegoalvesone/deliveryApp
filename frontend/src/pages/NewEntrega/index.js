@@ -13,7 +13,7 @@ export default function NewEntrega() {
     const [endereco, setEndereco] = useState('');
     const [valorReceber, setValorReceber] = useState('');
     const [troco, setTroco] = useState('');
-    const [frete, setFrete] = useState('');
+    const frete = 1;
     const [entregadores, setEntregadores] = useState([]);
     const [entregador_id, setEntregadorId] = useState('');
 
@@ -85,11 +85,6 @@ export default function NewEntrega() {
                         value={troco}
                         onChange={e => setTroco(e.target.value)}
                     />
-                    <input
-                        placeholder="Frete"
-                        value={frete}
-                        onChange={e => setFrete(e.target.value)}
-                    />
                     <select onChange={e => setEntregadorId(e.target.value)}>
                         <option>Selecione o Entregador</option>
                         {entregadores.map(entregador =>
@@ -98,6 +93,7 @@ export default function NewEntrega() {
                         </option>)
                         }
                     </select>
+                    <label>Frete: {frete}</label>
                     <button className="button">Cadastrar</button>
                 </form>
             </div>

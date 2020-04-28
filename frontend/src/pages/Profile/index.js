@@ -44,6 +44,7 @@ export default function Profile() {
             });
             setEntregas(entregas.filter(entrega => entrega.idEntrega !== idEntrega ));
             setNumeroEntregas(numeroEntregas - 1);
+            setValorPagar(entregas.filter(entrega => entrega.idEntrega !== idEntrega ).length * frete);
         } catch(err) {
             alert('Erro ao deletar entrega, tente novamente.')
         }
@@ -56,10 +57,12 @@ export default function Profile() {
                     Authorization: loja_id,
                 }
             });
-            setEntregas(entregas.filter(entrega => entrega.nome === nomeEntregador));
-            setNumeroEntregas(entregas.filter(entrega => entrega.nome === nomeEntregador).length)
-            setValorPagar(entregas.filter(entrega => entrega.nome === nomeEntregador).length * frete);
-            history.push('/profile')
+            
+            setEntregas(entregas.filter(entrega => entrega.nome.toLowerCase() === nomeEntregador.toLowerCase()));
+            setNumeroEntregas(entregas.filter(entrega => entrega.nome.toLowerCase() === nomeEntregador.toLowerCase()).length)
+            setValorPagar(entregas.filter(entrega => entrega.nome.toLowerCase() === nomeEntregador.toLowerCase()).length * frete);
+
+            
         } catch(err) {
             alert('Erro ao buscar entregador')
         }
@@ -82,6 +85,7 @@ export default function Profile() {
 
             <h1>Entregas cadastradas:</h1>
             <h2>Total: {numeroEntregas}</h2>
+            <h2>Valor a pagar: {valorPagar}</h2>
             <form onSubmit={handleBuscaEntregadores}>
             <input 
             placeholder="Digite o nome do Entregador"
@@ -112,7 +116,6 @@ export default function Profile() {
                     </li>
                 ))}
             </ul>
-                <h2>Valor a pagar: {valorPagar}</h2>
         </div>
     );
 }
